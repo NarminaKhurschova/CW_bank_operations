@@ -2,8 +2,6 @@ import utils
 
 operations_data = utils.operations_content
 
-print(operations_data)
-
 
 def get_executed_operations(all_operations):
     executed_operations = []
@@ -12,10 +10,10 @@ def get_executed_operations(all_operations):
         if operation.get('state'):
             if operation['state'] == 'EXECUTED':
                 executed_operations.append(operation)
-            continue
+                continue
         else:
             continue
     return executed_operations
 
 
-print(get_executed_operations(operations_data))
+sorted_operations = get_executed_operations(operations_data)
