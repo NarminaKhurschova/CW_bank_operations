@@ -1,3 +1,4 @@
+
 class Operation:
     def __init__(self, id, date, state, operationAmount, name_of_currency, description, sender, to):
         self.id = id
@@ -9,14 +10,13 @@ class Operation:
         self.sender = sender
         self.to = to
 
-
     def get_id(self):
         if self.id >= 0:
             return id
         else:
             print("Поле 'id' не заполнено")
 
-    def get_date(self):
+    def get_format_date(self):
         if self.date is None:
             print("Поле 'date' не заполнено")
         else:
@@ -54,15 +54,12 @@ class Operation:
 
     def get_this_operation(self):
         operation_content = {
-            'data': [self.get_date()],
-            'description': [self.get_description()],
-            'sender': [self.get_sender()],
-            'to': [self.get_to()],
-            'amount': [self.get_operationAmount()],
-            'name': [self.name_of_currency]
+            'date': self.get_format_date(),
+            'description': self.get_description(),
+            'sender': self.get_sender(),
+            'to': self.get_to(),
+            'amount': self.get_operationAmount(),
+            'name': self.name_of_currency
         }
         return operation_content
-
-
-
 
