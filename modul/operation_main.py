@@ -1,5 +1,8 @@
 
 class Operation:
+    """
+    Класс для одной банковской операции
+    """
     def __init__(self, id, date, state, operationAmount, name_of_currency, description, sender, to):
         self.id = id
         self.date = date
