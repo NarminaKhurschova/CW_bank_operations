@@ -1,0 +1,11 @@
+coverage==7.4.2
+DateTime==5.4
+exceptiongroup==1.2.0
+iniconfig==2.0.0
+packaging==23.2
+pluggy==1.4.0
+pytest==8.0.1
+pytest-cov==4.1.0
+pytz==2024.1
+tomli==2.0.1
+zope.interface==6.2
