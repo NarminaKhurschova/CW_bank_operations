@@ -23,15 +23,16 @@ def get_executed_operations(all_operations):
 def form_data_in_operation(all_operations):
     """
     Функция, приведения элемента массива ['date'] в формат даты
-    :param all_operations: операция dict,
+    :param all_operations: операции list,
     :return: операция с форматированной датой
     """
     all_operations = sorted(all_operations, key=lambda x: datetime.strptime(x["date"], '%Y-%m-%dT%H:%M:%S.%f'),
                             reverse=True)
+
     return all_operations
 
 
-def few_last_operations(array, start=1, end=6):
+def few_last_operations(array, start=0, end=5):
     """
     Функция выдающая первые несколько элементов из списка
     :param array: список
@@ -41,8 +42,8 @@ def few_last_operations(array, start=1, end=6):
     """
     if array:
         return array[start:end]
-    else:
-        print("Нет списка")
+    elif array is None:
+        return "Нет списка"
 
 
 def get_type_of_operations(user_of_operation):
