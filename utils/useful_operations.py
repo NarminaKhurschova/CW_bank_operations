@@ -1,8 +1,10 @@
+import utils.data_from_json
 from modul.operation_main import Operation
+from utils.data_from_json import *
 from utils.sort_operations import *
 
 # Получение массива json
-operations_data = utils.operations_content
+operations_data = utils.data_from_json.operations_content
 # получение отсортированного списка библиотек
 checked_operations = get_executed_operations(operations_data)
 # список операций как объектов класса Operation
