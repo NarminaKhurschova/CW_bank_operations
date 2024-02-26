@@ -20,16 +20,28 @@ def get_executed_operations(all_operations):
     return executed_operations
 
 
-def form_data_in_operation(all_operations):
+def sort_by_date(all_operations):
     """
-    Функция, приведения элемента массива ['date'] в формат даты
-    :param all_operations: операции list,
-    :return: операция с форматированной датой
+    Функция сортировки операций по дате
+    :param all_operations: все операции list
+    :return: упорядоченные по дате операции list
     """
     all_operations = sorted(all_operations, key=lambda x: datetime.strptime(x["date"], '%Y-%m-%dT%H:%M:%S.%f'),
                             reverse=True)
 
     return all_operations
+
+
+def form_data_in_operation(operation):
+    """
+    Функция, приведения элемента массива ['date'] в формат даты
+    :param operation: операции list,
+    :return: операция с форматированной датой
+    """
+    op_date, op_time = operation["date"].split('T')
+    pattern = '-'
+    op_date_form = re.sub(pattern, '.', op_date)
+    return op_date_form
 
 
 def few_last_operations(array, start=0, end=5):
