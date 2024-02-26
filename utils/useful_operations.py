@@ -18,13 +18,16 @@ for operation in checked_operations:
         set_operation = single_operation.get_this_operation()
         objects_of_operations.append(set_operation)
     else:
+
         continue
 
 # операции с форматированным параметром date
-objects_with_form_data = form_data_in_operation(objects_of_operations)
+objects_sort_by_data = sort_by_date(objects_of_operations)
+
 # последние 5 операций
-last_operations = few_last_operations(objects_with_form_data)
+last_operations = few_last_operations(objects_sort_by_data)
 for operation in last_operations:
+    date_of_operation = form_data_in_operation(operation)
     # получение названия счета или карты отправителя
     name_of_amount_sender = get_type_of_operations(operation['sender'])
     # получение названия счета или карты получателя
@@ -33,7 +36,7 @@ for operation in last_operations:
     hide_it = hide_num_of_card(operation)
     # группировка по 4 цифры
     div_it = div_card_numer(operation)
-    print(f'{operation["date"]} {operation["description"]}\n'
+    print(f'{date_of_operation} {operation["description"]}\n'
           f'{name_of_amount_sender }{operation["sender"]} -> {name_of_amount_receiver}{operation["to"]}\n'
           f'{operation["amount"]} {operation["name"]}')
 
