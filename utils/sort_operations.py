@@ -69,31 +69,50 @@ def get_type_of_operations(user_of_operation):
     return type_of_operation
 
 
-def replace_num_to_symb(num_of_sender):
+def del_letters(bank_prod):
+    """
+    Функция удаления букв из банковского продукта
+    :param bank_prod: название и номер банковского продукта
+    :return: номер банковского продукта
+    """
+    pattern = r'\D+'
+    bank_prod = re.sub(pattern, '', bank_prod)
+    return bank_prod
+
+
+def replace_num_to_symb(num_of_card):
     """
     Функция, сокрытия номера счета или карты
-    :param num_of_sender: номер счета или карты
+    :param num_of_card: номер счета или карты
     :return: номер счета с заменой цифр с 1 по 16,
     номер карты с заменой цифр с 6 по 12
     """
-    pattern = r'\D+'
-    card_sender_num_raw = re.sub(pattern, '', num_of_sender)
+    num_of_card = del_letters(num_of_card)
     num_of_sender_secured = []
-    if 'Счет' not in num_of_sender:
-        for digit in card_sender_num_raw:
-            if len(num_of_sender_secured) in range(6, 12):
-                pattern = r'\d'
-                num_of_sender_secured.append(re.sub(pattern, '*', digit))
-            else:
-                num_of_sender_secured.append(digit)
-    else:
-        for digit in card_sender_num_raw:
-            if len(num_of_sender_secured) in range(0, 16):
-                pattern = r'\d'
-                num_of_sender_secured.append(re.sub(pattern, '*', digit))
-            else:
-                num_of_sender_secured.append(digit)
+    for digit in num_of_card:
+        if len(num_of_sender_secured) in range(6, 12):
+            pattern = r'\d'
+            num_of_sender_secured.append(re.sub(pattern, '*', digit))
+        else:
+            num_of_sender_secured.append(digit)
     return num_of_sender_secured
+
+
+def bank_acc_num(num_bank_acc):
+    """
+    Функция распознавания банковского счета и вывода его последних 6 цифр,
+    :param num_bank_acc: Наименование и номер банковского счета list,
+    :return: последние 6 цифр list
+    """
+    digit_in_num = del_letters(num_bank_acc)
+    num_of_sender_secured = []
+    for digit in digit_in_num:
+        if len(num_of_sender_secured) in range(0, 16):
+            pattern = r'\d'
+            num_of_sender_secured.append(re.sub(pattern, '*', digit))
+        else:
+            num_of_sender_secured.append(digit)
+    return num_of_sender_secured[14:20]
 
 
 def div_card_numer(operation_to_div_card):
@@ -112,17 +131,36 @@ def div_card_numer(operation_to_div_card):
     return card_number_formatted
 
 
+def sort_by_bank_prod(bank_prod):
+    """
+    Функция распознования продукта банка
+    :param bank_prod: Наименование и номер продукта банка str
+    :return: Номер счета или банковской карты str
+    """
+    if "Счет" in bank_prod:
+        acc_num = bank_acc_num(bank_prod)
+        return acc_num
+    else:
+        card_num = replace_num_to_symb(bank_prod)
+        card_num_div = div_card_numer(card_num)
+        return card_num_div
+
+
 def hide_num_of_card(operation):
     """
     Функция приведения цифровой части счета
-    с помощью функций div_card_numer, replace_num_to_symb,
     :param operation: одна операция dict
     :return: операция dict с измененным номером карты или счета
     """
     num_of_sender = operation['sender']
-    num_of_sender_format = div_card_numer(replace_num_to_symb(num_of_sender))
+    num_of_sender_format = sort_by_bank_prod(num_of_sender)
     num_of_receiving = operation['to']
-    num_of_receiving_format = div_card_numer(replace_num_to_symb(num_of_receiving))
+    num_of_receiving_format = sort_by_bank_prod(num_of_receiving)
     operation['sender'] = ''.join(num_of_sender_format)
     operation['to'] = ''.join(num_of_receiving_format)
     return operation
+
+
+
+
+
