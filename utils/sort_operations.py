@@ -37,10 +37,9 @@ def form_data_in_operation(operation):
     :param operation: операции list,
     :return: операция с форматированной датой
     """
-    op_date, op_time = operation["date"].split('T')
-    pattern = '-'
-    op_date_form = re.sub(pattern, '.', op_date)
-    return op_date_form
+    date_time = datetime.strptime(operation['date'], "%Y-%m-%dT%H:%M:%S.%f")
+    date = date_time.strftime("%d.%m.%Y")
+    return date
 
 
 def few_last_operations(array, start=0, end=5):
